@@ -17,7 +17,7 @@ public class TollDbContext : DbContext
             entity.Property(e => e.TollStation).IsRequired();
             entity.Property(e => e.City).IsRequired();
             entity.Property(e => e.State).IsRequired();
-            entity.Property(e => e.Amount).HasPrecision(10, 2);
+            entity.Property(e => e.AmountPaid).HasPrecision(10, 2);
         });
     }
 }

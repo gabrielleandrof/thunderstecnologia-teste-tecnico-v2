@@ -9,6 +9,6 @@ public record RegisterTollUsageCommand(
     string TollStation,
     string City,
     string State,
-    decimal Amount,
+    decimal AmountPaid,
     VehicleType VehicleType
 ) : IRequest<Unit>;

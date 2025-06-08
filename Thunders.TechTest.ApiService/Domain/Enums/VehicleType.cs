@@ -2,7 +2,7 @@
 
 public enum VehicleType
 {
-    Bike = 1,
+    Motorcycle = 1,
     Car = 2,
     Truck = 3
 }

@@ -21,11 +21,11 @@ public class RegisterTollUsageHandler : IRequestHandler<RegisterTollUsageCommand
             request.TollStation,
             request.City,
             request.State,
-            request.Amount,
+            request.AmountPaid,
             request.VehicleType
         );
 
-        await _repository.AddAsync(usage, cancellationToken);
+        await _repository.AddAsync(usage);
 
         return Unit.Value;
     }

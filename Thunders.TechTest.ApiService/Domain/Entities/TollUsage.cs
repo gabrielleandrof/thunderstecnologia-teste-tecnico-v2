@@ -9,7 +9,7 @@ public class TollUsage
     public string TollStation { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
     public string State { get; set; } = string.Empty;
-    public decimal Amount { get; set; }
+    public decimal AmountPaid { get; set; }
     public VehicleType VehicleType { get; set; }
 
     public TollUsage(
@@ -26,7 +26,7 @@ public class TollUsage
         TollStation = tollStation;
         City = city;
         State = state;
-        Amount = amount;
+        AmountPaid = amount;
         VehicleType = vehicleType;
     }
 
