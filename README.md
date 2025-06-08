@@ -61,6 +61,16 @@ RESTful API for registering and reporting toll usage data.
 ### Report: Vehicle Count by Station
 `GET /api/tollusage/report/vehicle-count?station=Station A`
 
+### Report: Manual trigger to schedule reports
+`POST /api/tollusage/report/trigger`
+```json
+{
+  "year": 2025,
+  "month": 6
+}
+```
+
+
 ## Notes
 - The infrastructure services (SQL Server, Redis, RabbitMQ, Jaeger) are containerized.
 - The application itself must be run locally via AppHost due to Aspire SDK build constraints in Docker.
