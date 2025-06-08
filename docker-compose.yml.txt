@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "admin"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - thunders_net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - thunders_net
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - thunders_net
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    networks:
+      - thunders_net
+
+  apphost:
+    build:
+      context: .
+      dockerfile: Thunders.TechTest.AppHost/Dockerfile
+    container_name: apphost
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - redis
+      - jaeger
+    networks:
+      - thunders_net
+
+volumes:
+  sql_data:
+
+networks:
+  thunders_net:
+    driver: bridge
