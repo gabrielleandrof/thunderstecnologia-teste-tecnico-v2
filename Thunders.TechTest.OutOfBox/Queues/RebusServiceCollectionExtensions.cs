@@ -31,6 +31,8 @@ namespace Thunders.TechTest.OutOfBox.Queues
 
                 });
 
+            services.AddSingleton<IMessageSender, RebusMessageSender>();
+
             return services;
         }
     }

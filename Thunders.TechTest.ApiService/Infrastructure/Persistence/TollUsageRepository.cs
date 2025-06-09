@@ -20,18 +20,17 @@ public class TollUsageRepository : ITollUsageRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<TollUsage>> GetAllAsync()
-    {
-        return await _context.TollUsages.ToListAsync();
-    }
-
-    public async Task<List<(string City, DateTime Hour, decimal Total)>> GetByCityGroupedByHourAsync()
+    public async Task<List<(string City, int Hour, decimal Total)>> GetByCityGroupedByHourAsync()
     {
         return await _context.TollUsages
-            .GroupBy(t => new { t.City, Hour = new DateTime(t.Timestamp.Year, t.Timestamp.Month, t.Timestamp.Day, t.Timestamp.Hour, 0, 0) })
-            .Select(g => new ValueTuple<string, DateTime, decimal>(g.Key.City, g.Key.Hour, g.Sum(x => x.AmountPaid)))
+            .GroupBy(t => new { t.City, t.Timestamp.Hour })
+            .Select(g => new ValueTuple<string, int, decimal>(
+                g.Key.City,
+                g.Key.Hour,
+                g.Sum(x => x.AmountPaid)))
             .ToListAsync();
     }
+
 
     public async Task<List<(string TollStation, decimal Total)>> GetTopStationsByMonthAsync(int year, int month, int top)
     {
@@ -49,7 +48,7 @@ public class TollUsageRepository : ITollUsageRepository
     public async Task<Dictionary<VehicleType, int>> GetVehicleTypeCountsByStationAsync(string station)
     {
         return await _context.TollUsages
-            .Where(t => t.TollStation == station)
+            .Where(t => t.TollStation.ToLower() == station.ToLower())
             .GroupBy(t => t.VehicleType)
             .Select(g => new { g.Key, Count = g.Count() })
             .ToDictionaryAsync(x => x.Key, x => x.Count);

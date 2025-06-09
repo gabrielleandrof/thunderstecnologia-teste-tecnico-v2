@@ -42,7 +42,7 @@ public class RegisterTollUsageHandlerTests
     public async Task TollUsageRepository_Should_Persist_And_Query_Correctly()
     {
         var options = new DbContextOptionsBuilder<TollDbContext>()
-            .UseInMemoryDatabase(databaseName: "ThundersUnitTestDb")
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
         await using var context = new TollDbContext(options);
@@ -60,11 +60,8 @@ public class RegisterTollUsageHandlerTests
 
         await repository.AddAsync(entry);
 
-        var all = await repository.GetAllAsync();
-        all.Should().ContainSingle();
-
         var byHour = await repository.GetByCityGroupedByHourAsync();
-        byHour.Should().Contain(x => x.City == "Campinas" && x.Total == 10.0m);
+        byHour.Should().ContainSingle(x => x.City == "Campinas" && x.Total == 10.0m);
 
         var top = await repository.GetTopStationsByMonthAsync(2025, 6, 1);
         top.Should().ContainSingle(x => x.TollStation == "Station A" && x.Total == 10.0m);

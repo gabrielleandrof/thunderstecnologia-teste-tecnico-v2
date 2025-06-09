@@ -8,16 +8,16 @@ var rabbitMq = builder.AddRabbitMQ("RabbitMq", password: rabbitMqPassword)
     .WithVolume("/etc/rabbitmq")
     .WithManagementPlugin();
 
-var sqlServerPassword = builder.AddParameter("SqlServerInstancePassword", true);
-var sqlServer = builder.AddSqlServer("SqlServerInstance", sqlServerPassword)
-    .WithDataVolume();
+//comentado para nao utilizar o sql do aspire e sim do docker-compose
 
-var database = sqlServer.AddDatabase("ThundersTechTestDb", "ThundersTechTest");
+//var sqlServerPassword = builder.AddParameter("SqlServerInstancePassword", true);
+//var sqlServer = builder.AddSqlServer("SqlServerInstance", sqlServerPassword)
+//    .WithDataVolume();
+
+//var database = sqlServer.AddDatabase("ThundersTechTestDb", "TollDb");
 
 var apiService = builder.AddProject<Projects.Thunders_TechTest_ApiService>("apiservice")
     .WithReference(rabbitMq)
-    .WaitFor(rabbitMq)
-    .WithReference(database)
-    .WaitFor(database);
+    .WaitFor(rabbitMq);
 
 builder.Build().Run();

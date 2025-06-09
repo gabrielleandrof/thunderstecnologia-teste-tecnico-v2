@@ -12,7 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Thunders.TechTest.ApiService\Thunders.TechTest.ApiService.csproj" />
+    <ProjectReference Include="..\Thunders.TechTest.ApiService\Thunders.TechTest.ApiService.csproj">
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
