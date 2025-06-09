@@ -15,7 +15,7 @@ public class GenerateReportsConsumer : IHandleMessages<GenerateReportsMessage>
     public async Task Handle(GenerateReportsMessage message)
     {
         var hourly = await _repository.GetByCityGroupedByHourAsync();
-        var top = await _repository.GetTopStationsByMonthAsync(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 5);
+        var top = await _repository.GetTopStationsByMonthAsync(message.Year, message.Month, 5);
         var types = await _repository.GetVehicleTypeCountsByStationAsync("Station A");
 
         Console.WriteLine($"[MSG] Hourly: {hourly.Count}, Top: {top.Count}, Types: {types.Count}");

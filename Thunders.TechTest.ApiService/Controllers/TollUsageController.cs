@@ -74,9 +74,9 @@ public class TollUsageController : ControllerBase
     }
 
     [HttpPost("report/trigger")]
-    public async Task<IActionResult> TriggerReport()
+    public async Task<IActionResult> TriggerReport(int year, int month)
     {
-        await _sender.SendLocal(new GenerateReportsMessage());
+        await _sender.SendLocal(new GenerateReportsMessage(year, month));
 
         var response = new TriggerReportResponse
         {

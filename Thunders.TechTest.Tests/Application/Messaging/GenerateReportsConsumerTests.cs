@@ -16,7 +16,7 @@ public class GenerateReportsConsumerTests
         mock.Setup(r => r.GetVehicleTypeCountsByStationAsync(It.IsAny<string>())).ReturnsAsync(new Dictionary<VehicleType, int>());
 
         var consumer = new GenerateReportsConsumer(mock.Object);
-        await consumer.Handle(new GenerateReportsMessage());
+        await consumer.Handle(new GenerateReportsMessage(2025, 2));
 
         mock.Verify(r => r.GetByCityGroupedByHourAsync(), Times.Once);
         mock.Verify(r => r.GetTopStationsByMonthAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
